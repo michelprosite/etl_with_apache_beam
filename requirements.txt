@@ -4,7 +4,6 @@ google-cloud-storage
 pyarrow
 setuptools
 apache_beam[dataframe]
-cx_Oracle
 pandas
 fsspec
 gcsfs

@@ -1,0 +1,16 @@
+gcloud artifacts repositories create conection-postgres-for-parquet \
+    --repository-format=docker \
+    --location=southamerica-east1 \
+    --async
+
+
+gcloud auth configure-docker southamerica-east1-docker.pkg.dev
+
+
+#--->>> Sempre que alterar algo, precisa executar os comandos abaixo novamente
+
+gcloud builds submit --tag southamerica-east1-docker.pkg.dev/teste-templates-420021/conection-postgres-for-parquet/oracle-dev:latest .
+
+gcloud dataflow flex-template build gs://etl-postgres-for-parquet/templates/conection-postgres-for-parquet.json \
+    --image="southamerica-east1-docker.pkg.dev/teste-templates-420021/conection-postgres-for-parquet/oracle-dev:latest" \
+    --sdk-language "PYTHON" 
