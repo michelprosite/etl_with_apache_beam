@@ -1,18 +1,35 @@
 import psycopg2
 import apache_beam as beam
+import os
+import json
 
 class GetNamesTables(beam.DoFn):
         def process(self, element):
-            element = None
             # Parâmetros de conexão
-            conn_params = {
-                "host": "159.223.187.110",
-                "database": "novadrive",
-                "user": "etlreadonly",
-                "password": "novadrive376A@",
-                "port": "5432"
-            }
+            with open('config/conect_db_postgres.json') as f:
+                config = json.load(f)
 
+            # Definindo as variáveis de ambiente
+            os.environ['DB_USER'] = config['DB_USER']
+            os.environ['DB_PASSWORD'] = config['DB_PASSWORD']
+            os.environ['DB_HOST'] = config['DB_HOST']
+            os.environ['DB_PORT'] = config['DB_PORT']
+            os.environ['DB_DATABASE'] = config['DB_DATABASE']
+            
+            #Pegando as credenciais via variável de ambiente
+            USERNAME = os.getenv('DB_USER')
+            PASSWORD = os.getenv('DB_PASSWORD')
+            HOST = os.getenv('DB_HOST')
+            PORT = os.getenv('DB_PORT')
+            DATABASE = os.getenv('DB_DATABASE')
+
+            conn_params = {
+                "host": HOST,
+                "database": DATABASE,
+                "user": USERNAME,
+                "password": PASSWORD,
+                "port": PORT
+            }
             try:
                 # Conectar ao banco de dados
                 conn = psycopg2.connect(**conn_params)

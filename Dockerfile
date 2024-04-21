@@ -7,11 +7,21 @@ ARG WORKDIR=/template
 WORKDIR ${WORKDIR}
 
 # Copiando arquivos
-COPY requirements.txt .
-COPY setup.py .
-COPY main.py .
-COPY metadata.json .
-COPY functions functions
+COPY . ${WORKDIR}
+
+#Criando os argumento que serão passados no processo de build
+ARG DB_USER 
+ARG DB_PASSWORD
+ARG DB_HOST
+ARG DB_PORT
+ARG DB_DATABASE
+
+# Definindo as variáveis de ambiente com os argumentos
+ENV DB_USER=${DB_USER}
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DB_HOST=${DB_HOST}
+ENV DB_PORT=${DB_PORT}
+ENV DB_DATABASE=${DB_DATABASE}
 
 RUN pip install --no-cache-dir -r requirements.txt
 

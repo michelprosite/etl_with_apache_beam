@@ -1,0 +1,8 @@
+setup.py
+Michel_Souza_Santana.egg-info/PKG-INFO
+Michel_Souza_Santana.egg-info/SOURCES.txt
+Michel_Souza_Santana.egg-info/dependency_links.txt
+Michel_Souza_Santana.egg-info/top_level.txt
+functions/__init__.py
+functions/get_names.py
+functions/get_tbles.py

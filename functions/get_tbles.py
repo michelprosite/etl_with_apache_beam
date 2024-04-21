@@ -3,18 +3,37 @@ import apache_beam as beam
 import logging
 import pandas as pd
 from google.cloud import storage
+import os
+import json
 
 
 class GetTables(beam.DoFn):
     def process(self, element):
         for table in element:
             # Parâmetros de conexão
+            with open('config/conect_db_postgres.json') as f:
+                config = json.load(f)
+
+            # Definindo as variáveis de ambiente
+            os.environ['DB_USER'] = config['DB_USER']
+            os.environ['DB_PASSWORD'] = config['DB_PASSWORD']
+            os.environ['DB_HOST'] = config['DB_HOST']
+            os.environ['DB_PORT'] = config['DB_PORT']
+            os.environ['DB_DATABASE'] = config['DB_DATABASE']
+            
+            #Pegando as credenciais via variável de ambiente
+            USERNAME = os.getenv('DB_USER')
+            PASSWORD = os.getenv('DB_PASSWORD')
+            HOST = os.getenv('DB_HOST')
+            PORT = os.getenv('DB_PORT')
+            DATABASE = os.getenv('DB_DATABASE')
+
             conn_params = {
-                "host": "159.223.187.110",
-                "database": "novadrive",
-                "user": "etlreadonly",
-                "password": "novadrive376A@",
-                "port": "5432"
+                "host": HOST,
+                "database": DATABASE,
+                "user": USERNAME,
+                "password": PASSWORD,
+                "port": PORT
             }
 
             try:
@@ -43,8 +62,8 @@ class GetTables(beam.DoFn):
                 cursor.close()
                 conn.close()
 
-                bucket_name = 'etl-postgres-for-parquet'
-                path = f'raw/{table}.parquet'
+                bucket_name = 'etl-postgres-mss'
+                path = f'data/{table}.parquet'
 
                 client = storage.Client()
                 bucket = client.get_bucket(bucket_name)

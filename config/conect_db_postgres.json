@@ -1,0 +1,8 @@
+{
+    "DB_USER": "etlreadonly",
+    "DB_PASSWORD": "novadrive376A@",
+    "DB_HOST": "159.223.187.110",
+    "DB_PORT": "5432",
+    "DB_DATABASE": "novadrive"
+}
+
