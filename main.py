@@ -17,7 +17,7 @@ from google.cloud import storage
 
 logging.basicConfig(level=logging.INFO, stream=sys.stdout, format="%(asctime)s - %(levelname)s - %(message)s")
 
-serviceAccount = r'/home/michel/Documentos/Projetos/keys/concise-vertex-420419-9fde64074908.json'
+serviceAccount = r'sua-service-account.json'
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = serviceAccount
 
 def main(argv=None):
